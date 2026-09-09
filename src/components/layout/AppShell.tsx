@@ -59,7 +59,11 @@ function SymbolSearch() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "/" && !(e.target instanceof HTMLInputElement)) {
+      const openShortcut =
+        (e.key === "/" && !(e.target instanceof HTMLInputElement)) ||
+        ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k");
+
+      if (openShortcut) {
         e.preventDefault();
         setOpen(true);
       }
@@ -75,11 +79,11 @@ function SymbolSearch() {
         onClick={() => setOpen(true)}
         className="hidden h-9 w-56 items-center gap-2 rounded-[3px] border border-line bg-surface px-3 text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:flex"
       >
-        <span className="font-mono text-xs">/</span>
+        <span className="font-mono text-xs">⌘K</span>
         Search ticker…
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search by symbol or company…" />
+        <CommandInput autoFocus placeholder="Search by symbol or company…" />
         <CommandList>
           <CommandEmpty>No matching company in the demo dataset.</CommandEmpty>
           <CommandGroup heading="Listed companies">

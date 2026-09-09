@@ -6,7 +6,12 @@ import { PriceChart } from "@/components/market/PriceChart";
 import { RangeTabs } from "@/components/market/RangeTabs";
 import { MoveList, TurnoverList } from "@/components/market/QuoteRow";
 import { ChartSkeleton, LoadingBlock, RetryButton, StateMessage } from "@/components/market/States";
-import { useIndexHistory, useMarketSummary, useQuotes, useRecentTrades } from "@/hooks/useMarketData";
+import {
+  useIndexHistory,
+  useMarketSummary,
+  useQuotes,
+  useRecentTrades,
+} from "@/hooks/useMarketData";
 import type { Range } from "@/services/marketData";
 import {
   formatClock,
@@ -83,8 +88,16 @@ function MarketOverview() {
               sub={`${formatSigned(s.change)} (${formatPercent(s.changePercent)})`}
               tone={tone}
             />
-            <Stat label="Turnover" value={`Rs. ${formatCompactNpr(s.turnover)}`} sub="Total value traded" />
-            <Stat label="Traded shares" value={formatCompactNpr(s.tradedShares)} sub={`${groupNepali(s.transactions)} transactions`} />
+            <Stat
+              label="Turnover"
+              value={`Rs. ${formatCompactNpr(s.turnover)}`}
+              sub="Total value traded"
+            />
+            <Stat
+              label="Traded shares"
+              value={formatCompactNpr(s.tradedShares)}
+              sub={`${groupNepali(s.transactions)} transactions`}
+            />
             <Stat
               label="Market breadth"
               value={
@@ -122,11 +135,19 @@ function MarketOverview() {
           <div className="grid gap-5 lg:grid-cols-3">
             <Panel>
               <PanelHeader title="Top gainers" meta="Largest daily percentage rise" />
-              {quotes.isPending ? <LoadingBlock /> : <MoveList quotes={gainers} empty="No advancing stocks." />}
+              {quotes.isPending ? (
+                <LoadingBlock />
+              ) : (
+                <MoveList quotes={gainers} empty="No advancing stocks." />
+              )}
             </Panel>
             <Panel>
               <PanelHeader title="Top losers" meta="Largest daily percentage fall" />
-              {quotes.isPending ? <LoadingBlock /> : <MoveList quotes={losers} empty="No declining stocks." />}
+              {quotes.isPending ? (
+                <LoadingBlock />
+              ) : (
+                <MoveList quotes={losers} empty="No declining stocks." />
+              )}
             </Panel>
             <Panel>
               <PanelHeader title="Most traded" meta="Ranked by turnover" />
@@ -162,7 +183,9 @@ function MarketOverview() {
                         <td className="px-4 py-2.5 text-faint sm:px-5">{formatClock(t.time)}</td>
                         <td className="px-4 py-2.5 text-ink">{t.symbol}</td>
                         <td className="px-4 py-2.5 text-right text-ink">{formatPrice(t.price)}</td>
-                        <td className={`px-4 py-2.5 text-right ${toneTextClass[toneOf(t.changePercent)]}`}>
+                        <td
+                          className={`px-4 py-2.5 text-right ${toneTextClass[toneOf(t.changePercent)]}`}
+                        >
                           {formatPercent(t.changePercent)}
                         </td>
                         <td className="px-4 py-2.5 text-right text-muted sm:px-5">

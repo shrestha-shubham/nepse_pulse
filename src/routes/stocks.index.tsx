@@ -28,7 +28,8 @@ export const Route = createFileRoute("/stocks/")({
       { property: "og:title", content: "Stock Directory — NEPSE Listed Companies" },
       {
         property: "og:description",
-        content: "Searchable, sortable directory of NEPSE listed companies with demonstration data.",
+        content:
+          "Searchable, sortable directory of NEPSE listed companies with demonstration data.",
       },
     ],
   }),
@@ -65,7 +66,8 @@ function StocksPage() {
     return filtered.sort((a, b) => {
       const av = a[sort];
       const bv = b[sort];
-      const cmp = typeof av === "string" ? av.localeCompare(bv as string) : (av as number) - (bv as number);
+      const cmp =
+        typeof av === "string" ? av.localeCompare(bv as string) : (av as number) - (bv as number);
       return dir === "asc" ? cmp : -cmp;
     });
   }, [data, query, sector, sort, dir]);

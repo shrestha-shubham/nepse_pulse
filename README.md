@@ -1,222 +1,46 @@
 # NEPSE Pulse
 
-Build a modern, production-quality NEPSE Market Dashboard web application focused specifically on the Nepal Stock Exchange (NEPSE).
+NEPSE Pulse is a React + TypeScript dashboard for exploring Nepal Stock Exchange market activity with mock, demo-grade data. It is designed as a clean showcase for market overview, stock research, sector heatmaps, and personal watchlists without claiming to provide live exchange data.
 
-The goal is to create a portfolio-worthy project that feels like a real financial analytics product, not a basic CRUD dashboard.
+## Features
 
-Core concept
+- Market overview with index, turnover, volume, and activity summaries
+- Searchable stock directory with sector and sorting controls
+- Detailed stock pages with historical chart ranges and key metrics
+- Local watchlist persistence using browser storage
+- Sector heatmap and analytics views
+- Demo-data labeling throughout the UI
 
-Create a dashboard where users can monitor Nepal's stock market, explore listed companies, view price information, analyze historical performance, and maintain a personal watchlist.
+## Tech stack
 
-The application should be designed for information and analysis only. It must NOT execute real trades or handle real money.
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+- React Router
+- TanStack Query
 
-Tech stack
+## Local setup
 
-Use:
+```bash
+npm install
+npm run dev
+```
 
-React
+Then open the local Vite URL shown in the terminal.
 
-TypeScript
+## Production checks
 
-Vite
+```bash
+npm run build
+npm run lint
+```
 
-Tailwind CSS
+## Notes
 
-shadcn/ui
-
-Recharts for charts
-
-React Router
-
-A clean API/data-service layer
-
-PostgreSQL if persistent user data is required
-
-Use environment variables for API keys
-
-Do not hardcode API keys or secrets
-
-Keep the architecture clean and modular so the data source can be replaced later without rewriting the UI.
-
-Important data requirement
-
-Do NOT pretend that the application has direct access to live NEPSE/broker data unless a legitimate API/data source is actually available.
-
-Create a dedicated market-data service layer:
-
-src/services/marketData.ts
-
-The application should be designed so that a real API can be connected later.
-
-For development, provide realistic mock NEPSE data through a local data provider.
-
-Clearly label mock/demo data where appropriate.
-
-Do not fabricate claims such as "real-time NEPSE data" when using mock data.
-
-Pages
-
-1. Market Overview
-
-Create the main dashboard.
-
-Display:
-
-NEPSE Index
-
-Daily change
-
-Daily percentage change
-
-Total market turnover
-
-Total traded shares
-
-Number of advancing stocks
-
-Number of declining stocks
-
-Number of unchanged stocks
-
-Include:
-
-NEPSE historical line chart
-
-Top gainers
-
-Top losers
-
-Most traded companies
-
-Recent market activity
-
-Use realistic Nepalese formatting:
-
-Rs. for currency
-
-Lakhs/Crores where appropriate
-
-Nepali company names/tickers where relevant
-
-2. Stocks
-
-Create a searchable stock directory.
-
-Columns:
-
-Symbol
-
-Company
-
-Sector
-
-Last Price
-
-Change
-
-Change %
-
-Volume
-
-Turnover
-
-Features:
-
-Search
-
-Sector filter
-
-Sort by price
-
-Sort by percentage change
-
-Sort by volume
-
-Sort by turnover
-
-Make the table responsive.
-
-3. Stock Details
-
-Clicking a company should open a dedicated stock page.
-
-Show:
-
-Company name
-
-Symbol
-
-Sector
-
-Current price
-
-Daily change
-
-52-week high
-
-52-week low
-
-Volume
-
-Turnover
-
-Market capitalization
-
-Add an interactive historical price chart.
-
-Allow:
-
-1D
-
-1W
-
-1M
-
-3M
-
-6M
-
-1Y
-
-Add a "Add to Watchlist" button.
-
-Include basic company information and key statistics.
-
-4. Watchlist
-
-Allow users to maintain a personal watchlist.
-
-Show:
-
-Company
-
-Current price
-
-Change
-
-Change %
-
-Last updated
-
-Allow adding/removing stocks.
-
-For the MVP, localStorage is acceptable instead of implementing authentication.
-
-5. Market Heatmap
-
-Create a visual market heatmap grouped by sector.
-
-Example sectors:
-
-Commercial Banks
-
-Development Banks
-
-Finance
-
-Hotels & Tourism
-
-Hydropower
+This app uses realistic mock NEPSE data in the services layer for demonstration purposes. It intentionally does not present that data as live market data or execute trades.
 
 Investment
 

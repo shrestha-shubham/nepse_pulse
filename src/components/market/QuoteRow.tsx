@@ -45,9 +45,7 @@ export function TurnoverList({ quotes }: { quotes: Quote[] }) {
           >
             <div className="min-w-0">
               <div className="font-mono text-xs font-medium text-ink">{q.symbol}</div>
-              <div className="truncate text-[11px] text-faint">
-                {groupNepali(q.volume)} shares
-              </div>
+              <div className="truncate text-[11px] text-faint">{groupNepali(q.volume)} shares</div>
             </div>
             <div className="text-right font-mono text-xs">
               <div className="text-ink">Rs. {formatCompactNpr(q.turnover)}</div>

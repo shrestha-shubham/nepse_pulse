@@ -112,10 +112,7 @@ function AnalyticsPage() {
       </StatGrid>
 
       <Panel>
-        <PanelHeader
-          title="Sector performance"
-          meta="Market-cap weighted daily change by sector"
-        />
+        <PanelHeader title="Sector performance" meta="Market-cap weighted daily change by sector" />
         {sectors.isPending ? (
           <ChartSkeleton height={320} />
         ) : sectors.isError || sectorRows.length === 0 ? (

@@ -3,20 +3,34 @@ import { useCallback, useEffect, useState } from "react";
 const KEY = "nepse-watchlist";
 const EVENT = "nepse-watchlist-change";
 
+function normalize(symbol: string) {
+  return symbol
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9.-]/g, "");
+}
+
 function read(): string[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
     const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((s): s is string => typeof s === "string") : [];
+    if (!Array.isArray(parsed)) return [];
+    return Array.from(new Set(parsed.map((s) => normalize(String(s))).filter(Boolean)));
   } catch {
     return [];
   }
 }
 
-function write(symbols: string[]) {
-  window.localStorage.setItem(KEY, JSON.stringify(symbols));
-  window.dispatchEvent(new CustomEvent(EVENT));
+function persist(symbols: string[]) {
+  if (typeof window === "undefined") return;
+  try {
+    const next = Array.from(new Set(symbols.map(normalize).filter(Boolean)));
+    window.localStorage.setItem(KEY, JSON.stringify(next));
+    window.dispatchEvent(new CustomEvent(EVENT));
+  } catch {
+    // Ignore storage errors so the UI remains usable in privacy-restricted or full-browser modes.
+  }
 }
 
 /**
@@ -40,21 +54,33 @@ export function useWatchlist() {
   }, []);
 
   const add = useCallback((symbol: string) => {
-    const next = Array.from(new Set([...read(), symbol.toUpperCase()]));
-    write(next);
+    const next = Array.from(new Set([...read(), normalize(symbol)]));
+    const cleaned = next.filter(Boolean);
+    persist(cleaned);
+    setSymbols(cleaned);
   }, []);
 
   const remove = useCallback((symbol: string) => {
-    write(read().filter((s) => s !== symbol.toUpperCase()));
+    const next = read().filter((s) => s !== normalize(symbol));
+    persist(next);
+    setSymbols(next);
+  }, []);
+
+  const clear = useCallback(() => {
+    persist([]);
+    setSymbols([]);
   }, []);
 
   const toggle = useCallback((symbol: string) => {
-    const s = symbol.toUpperCase();
+    const s = normalize(symbol);
+    if (!s) return;
     const current = read();
-    write(current.includes(s) ? current.filter((x) => x !== s) : [...current, s]);
+    const next = current.includes(s) ? current.filter((x) => x !== s) : [...current, s];
+    persist(next);
+    setSymbols(next);
   }, []);
 
-  const has = useCallback((symbol: string) => symbols.includes(symbol.toUpperCase()), [symbols]);
+  const has = useCallback((symbol: string) => symbols.includes(normalize(symbol)), [symbols]);
 
-  return { symbols, ready, add, remove, toggle, has };
+  return { symbols, ready, add, remove, clear, toggle, has };
 }

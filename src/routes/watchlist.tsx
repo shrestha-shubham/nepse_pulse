@@ -34,7 +34,7 @@ export const Route = createFileRoute("/watchlist")({
 });
 
 function WatchlistPage() {
-  const { symbols, ready, remove } = useWatchlist();
+  const { symbols, ready, remove, clear } = useWatchlist();
   const { data, isPending } = useQuotes();
   const rows = (data ?? []).filter((q) => symbols.includes(q.symbol));
 
@@ -45,7 +45,21 @@ function WatchlistPage() {
       subtitle="Saved in this browser only · demonstration dataset"
     >
       <Panel>
-        <PanelHeader title="Tracked companies" meta={`${rows.length} symbol(s) saved`} />
+        <PanelHeader
+          title="Tracked companies"
+          meta={`${rows.length} symbol(s) saved`}
+          actions={
+            rows.length > 0 ? (
+              <button
+                type="button"
+                onClick={clear}
+                className="rounded-[3px] border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-faint transition-colors hover:border-down/60 hover:text-down"
+              >
+                Clear all
+              </button>
+            ) : null
+          }
+        />
         {!ready || isPending ? (
           <LoadingBlock rows={4} />
         ) : rows.length === 0 ? (

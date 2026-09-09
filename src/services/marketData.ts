@@ -189,7 +189,7 @@ function buildQuote(seedIndex: number): Quote {
 const QUOTES: Quote[] = COMPANY_SEEDS.map((_, i) => buildQuote(i));
 const QUOTE_MAP = new Map(QUOTES.map((q) => [q.symbol, q]));
 
-const delay = <T,>(value: T, ms = 220) =>
+const delay = <T>(value: T, ms = 220) =>
   new Promise<T>((resolve) => setTimeout(() => resolve(value), ms));
 
 export class SymbolNotFoundError extends Error {

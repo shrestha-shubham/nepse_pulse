@@ -28,8 +28,10 @@ export const Route = createFileRoute("/heatmap")({
 function tileStyle(changePercent: number) {
   const magnitude = Math.min(Math.abs(changePercent) / 5, 1);
   const alpha = 0.12 + magnitude * 0.55;
-  if (changePercent > 0) return { backgroundColor: `color-mix(in oklab, var(--up) ${alpha * 100}%, var(--surface))` };
-  if (changePercent < 0) return { backgroundColor: `color-mix(in oklab, var(--down) ${alpha * 100}%, var(--surface))` };
+  if (changePercent > 0)
+    return { backgroundColor: `color-mix(in oklab, var(--up) ${alpha * 100}%, var(--surface))` };
+  if (changePercent < 0)
+    return { backgroundColor: `color-mix(in oklab, var(--down) ${alpha * 100}%, var(--surface))` };
   return { backgroundColor: "var(--elev)" };
 }
 

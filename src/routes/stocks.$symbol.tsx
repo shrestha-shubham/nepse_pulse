@@ -85,7 +85,9 @@ function StockDetail() {
     <AppShell
       title={q ? `${q.symbol} · ${q.name}` : symbol.toUpperCase()}
       tag={q?.sector}
-      subtitle={q ? `Last close ${formatPrice(q.price)} · demonstration dataset` : "Loading company…"}
+      subtitle={
+        q ? `Last close ${formatPrice(q.price)} · demonstration dataset` : "Loading company…"
+      }
       actions={
         q ? (
           <button
@@ -118,8 +120,16 @@ function StockDetail() {
             />
             <Stat label="52-week high" value={formatPrice(q.high52)} sub="Simulated range" />
             <Stat label="52-week low" value={formatPrice(q.low52)} sub="Simulated range" />
-            <Stat label="Volume" value={groupNepali(q.volume)} sub={`Turnover Rs. ${formatCompactNpr(q.turnover)}`} />
-            <Stat label="Market cap" value={`Rs. ${formatCompactNpr(q.marketCap)}`} sub={`${groupNepali(q.listedShares)} listed shares`} />
+            <Stat
+              label="Volume"
+              value={groupNepali(q.volume)}
+              sub={`Turnover Rs. ${formatCompactNpr(q.turnover)}`}
+            />
+            <Stat
+              label="Market cap"
+              value={`Rs. ${formatCompactNpr(q.marketCap)}`}
+              sub={`${groupNepali(q.listedShares)} listed shares`}
+            />
           </StatGrid>
 
           <Panel>
@@ -169,13 +179,19 @@ function StockDetail() {
             <Panel>
               <PanelHeader title="Key statistics" meta="Derived from the demonstration dataset" />
               <KeyRow label="Previous close" value={formatPrice(q.previousClose)} />
-              <KeyRow label="Day range" value={`${formatPrice(q.dayLow)} – ${formatPrice(q.dayHigh)}`} />
+              <KeyRow
+                label="Day range"
+                value={`${formatPrice(q.dayLow)} – ${formatPrice(q.dayHigh)}`}
+              />
               {profile.data ? (
                 <>
                   <KeyRow label="EPS" value={formatPrice(profile.data.eps)} />
                   <KeyRow label="P/E ratio" value={formatPrice(profile.data.peRatio)} />
                   <KeyRow label="Book value" value={formatPrice(profile.data.bookValue)} />
-                  <KeyRow label="Dividend yield" value={`${profile.data.dividendYield.toFixed(2)}%`} />
+                  <KeyRow
+                    label="Dividend yield"
+                    value={`${profile.data.dividendYield.toFixed(2)}%`}
+                  />
                 </>
               ) : null}
             </Panel>
