@@ -77,6 +77,7 @@ function SymbolSearch() {
       <button
         type="button"
         onClick={() => setOpen(true)}
+        aria-label="Search ticker"
         className="hidden h-9 w-56 items-center gap-2 rounded-[3px] border border-line bg-surface px-3 text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:flex"
       >
         <span className="font-mono text-xs">⌘K</span>

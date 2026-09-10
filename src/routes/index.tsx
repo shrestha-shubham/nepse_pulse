@@ -137,6 +137,13 @@ function MarketOverview() {
               <PanelHeader title="Top gainers" meta="Largest daily percentage rise" />
               {quotes.isPending ? (
                 <LoadingBlock />
+              ) : quotes.isError ? (
+                <StateMessage
+                  tone="error"
+                  title="Gainers unavailable"
+                  description="The quote service did not respond."
+                  action={<RetryButton onClick={() => quotes.refetch()} />}
+                />
               ) : (
                 <MoveList quotes={gainers} empty="No advancing stocks." />
               )}
@@ -145,13 +152,31 @@ function MarketOverview() {
               <PanelHeader title="Top losers" meta="Largest daily percentage fall" />
               {quotes.isPending ? (
                 <LoadingBlock />
+              ) : quotes.isError ? (
+                <StateMessage
+                  tone="error"
+                  title="Losers unavailable"
+                  description="The quote service did not respond."
+                  action={<RetryButton onClick={() => quotes.refetch()} />}
+                />
               ) : (
                 <MoveList quotes={losers} empty="No declining stocks." />
               )}
             </Panel>
             <Panel>
               <PanelHeader title="Most traded" meta="Ranked by turnover" />
-              {quotes.isPending ? <LoadingBlock /> : <TurnoverList quotes={traded} />}
+              {quotes.isPending ? (
+                <LoadingBlock />
+              ) : quotes.isError ? (
+                <StateMessage
+                  tone="error"
+                  title="Trading leaders unavailable"
+                  description="The quote service did not respond."
+                  action={<RetryButton onClick={() => quotes.refetch()} />}
+                />
+              ) : (
+                <TurnoverList quotes={traded} />
+              )}
             </Panel>
           </div>
 
