@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { BarChart3, ChartCandlestick, Grid2X2, Home, Star } from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,11 +13,11 @@ import { useQuotes } from "@/hooks/useMarketData";
 import { formatPercent, formatPrice, toneTextClass, toneOf } from "@/lib/format";
 
 const NAV = [
-  { to: "/", num: "01", label: "Market Overview" },
-  { to: "/stocks", num: "02", label: "Stocks" },
-  { to: "/watchlist", num: "03", label: "Watchlist" },
-  { to: "/heatmap", num: "04", label: "Heatmap" },
-  { to: "/analytics", num: "05", label: "Analytics" },
+  { to: "/", num: "01", label: "Market Overview", icon: Home },
+  { to: "/stocks", num: "02", label: "Stocks", icon: ChartCandlestick },
+  { to: "/watchlist", num: "03", label: "Watchlist", icon: Star },
+  { to: "/heatmap", num: "04", label: "Heatmap", icon: Grid2X2 },
+  { to: "/analytics", num: "05", label: "Analytics", icon: BarChart3 },
 ] as const;
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
@@ -54,10 +55,12 @@ function DemoNotice() {
 
 function SymbolSearch() {
   const [open, setOpen] = useState(false);
+  const [shortcut, setShortcut] = useState("Ctrl K");
   const { data: quotes } = useQuotes();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setShortcut(/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K");
     const onKey = (e: KeyboardEvent) => {
       const openShortcut =
         (e.key === "/" && !(e.target instanceof HTMLInputElement)) ||
@@ -78,9 +81,10 @@ function SymbolSearch() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search ticker"
+        aria-keyshortcuts={shortcut === "⌘K" ? "Meta+K" : "Control+K"}
         className="hidden h-9 w-56 items-center gap-2 rounded-[3px] border border-line bg-surface px-3 text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:flex"
       >
-        <span className="font-mono text-xs">⌘K</span>
+        <span className="font-mono text-xs">{shortcut}</span>
         Search ticker…
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -177,6 +181,7 @@ export function AppShell({ title, tag, subtitle, children, actions }: AppShellPr
             className="flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] text-faint"
             activeProps={{ className: "text-brand" }}
           >
+            <item.icon aria-hidden="true" className="size-4" />
             <span className="font-mono text-[11px]">{item.num}</span>
             <span className="max-w-[64px] truncate">{item.label.split(" ")[0]}</span>
           </Link>
