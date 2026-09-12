@@ -62,8 +62,13 @@ function SymbolSearch() {
   useEffect(() => {
     setShortcut(/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K");
     const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isTypingTarget =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target?.isContentEditable;
       const openShortcut =
-        (e.key === "/" && !(e.target instanceof HTMLInputElement)) ||
+        (e.key === "/" && !isTypingTarget) ||
         ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k");
 
       if (openShortcut) {
