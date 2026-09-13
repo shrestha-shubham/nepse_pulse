@@ -85,7 +85,9 @@ function WatchlistPage() {
                   <th className="px-4 py-2 text-right font-medium">Change</th>
                   <th className="px-4 py-2 text-right font-medium">Change %</th>
                   <th className="px-4 py-2 text-right font-medium">Last updated</th>
-                  <th className="px-4 py-2 sm:px-5" />
+                  <th className="px-4 py-2 sm:px-5">
+                    <span className="sr-only">Actions</span>
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
@@ -125,6 +127,7 @@ function WatchlistPage() {
                       <button
                         type="button"
                         onClick={() => remove(q.symbol)}
+                        aria-label={`Remove ${q.symbol} from watchlist`}
                         className="rounded-[3px] border border-line px-2 py-1 font-mono text-[11px] text-faint transition-colors hover:border-down/60 hover:text-down"
                       >
                         Remove
