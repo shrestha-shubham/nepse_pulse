@@ -66,6 +66,7 @@ function SectorBlock({ sector, members }: { sector: string; members: Quote[] }) 
                 to="/stocks/$symbol"
                 params={{ symbol: m.symbol }}
                 title={`${m.name} · ${formatPrice(m.price)} · ${formatPercent(m.changePercent)}`}
+                aria-label={`${m.name}, ${m.symbol}, ${formatPrice(m.price)}, ${formatPercent(m.changePercent)}`}
                 className="flex flex-col justify-between p-3 transition-opacity hover:opacity-80"
                 style={{ ...tileStyle(m.changePercent), minHeight: 62 + weight * 46 }}
               >
