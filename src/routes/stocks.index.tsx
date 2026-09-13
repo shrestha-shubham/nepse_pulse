@@ -92,13 +92,21 @@ function StocksPage() {
           meta="Search by symbol or name, filter by sector, sort any numeric column"
           actions={
             <div className="flex flex-wrap items-center gap-2">
+              <label htmlFor="stock-search" className="sr-only">
+                Search symbol or company
+              </label>
               <input
+                id="stock-search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search symbol or company…"
                 className="h-8 w-48 rounded-[3px] border border-line bg-canvas px-2.5 text-sm text-ink outline-none placeholder:text-faint focus:border-brand/60"
               />
+              <label htmlFor="sector-filter" className="sr-only">
+                Filter by sector
+              </label>
               <select
+                id="sector-filter"
                 value={sector}
                 onChange={(e) => setSector(e.target.value)}
                 className="h-8 rounded-[3px] border border-line bg-canvas px-2 text-sm text-ink outline-none focus:border-brand/60"
