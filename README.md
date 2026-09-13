@@ -19,7 +19,7 @@ NEPSE Pulse is a React + TypeScript dashboard for exploring Nepal Stock Exchange
 - Tailwind CSS
 - shadcn/ui
 - Recharts
-- React Router
+- TanStack Router
 - TanStack Query
 
 ## Local setup
