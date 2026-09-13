@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { BarChart3, ChartCandlestick, Grid2X2, Home, Star } from "lucide-react";
+import { BarChart3, ChartCandlestick, Grid2X2, Home, Search, Star } from "lucide-react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -87,10 +87,11 @@ function SymbolSearch() {
         onClick={() => setOpen(true)}
         aria-label="Search ticker"
         aria-keyshortcuts={shortcut === "⌘K" ? "Meta+K" : "Control+K"}
-        className="hidden h-9 w-56 items-center gap-2 rounded-[3px] border border-line bg-surface px-3 text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:flex"
+        className="flex h-9 w-9 items-center justify-center gap-2 rounded-[3px] border border-line bg-surface text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:w-56 sm:justify-start sm:px-3"
       >
-        <span className="font-mono text-xs">{shortcut}</span>
-        Search ticker…
+        <Search aria-hidden="true" className="size-4 shrink-0 sm:hidden" />
+        <span className="hidden font-mono text-xs sm:inline">{shortcut}</span>
+        <span className="hidden sm:inline">Search ticker…</span>
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput autoFocus placeholder="Search by symbol or company…" />

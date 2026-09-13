@@ -148,6 +148,9 @@ function StocksPage() {
                   {COLUMNS.map((c) => (
                     <th
                       key={c.label}
+                      aria-sort={
+                        c.key === sort ? (dir === "asc" ? "ascending" : "descending") : undefined
+                      }
                       className={cn("px-4 py-2 font-medium", c.align === "right" && "text-right")}
                     >
                       {c.key ? (
@@ -158,6 +161,7 @@ function StocksPage() {
                             "transition-colors hover:text-ink",
                             sort === c.key && "text-brand",
                           )}
+                          aria-label={`Sort by ${c.label}`}
                         >
                           {c.label}
                           {sort === c.key ? (dir === "asc" ? " ↑" : " ↓") : ""}
