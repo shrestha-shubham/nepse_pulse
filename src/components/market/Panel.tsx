@@ -3,7 +3,12 @@ import { cn } from "@/lib/utils";
 
 export function Panel({ className, children }: { className?: string; children: ReactNode }) {
   return (
-    <section className={cn("rounded-[4px] border border-line bg-surface", className)}>
+    <section
+      className={cn(
+        "rounded-[4px] border border-line bg-surface shadow-[0_10px_30px_oklch(0_0_0_/_0.08)]",
+        className,
+      )}
+    >
       {children}
     </section>
   );
@@ -19,7 +24,7 @@ export function PanelHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
+    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3.5 sm:px-5">
       <div>
         <h2 className="text-sm font-semibold">{title}</h2>
         {meta ? <p className="mt-0.5 text-[11px] text-faint">{meta}</p> : null}
@@ -49,12 +54,14 @@ export function Stat({
           ? "text-flat"
           : "text-ink";
   return (
-    <div className="bg-surface p-4">
+    <div className="flex min-h-[108px] flex-col justify-center bg-surface px-4 py-5 sm:px-5">
       <div className="label-xs">{label}</div>
-      <div className={cn("mt-2 font-mono text-2xl font-semibold tracking-tight", toneClass)}>
+      <div
+        className={cn("mt-2 font-mono text-xl font-semibold tracking-tight sm:text-2xl", toneClass)}
+      >
         {value}
       </div>
-      {sub ? <div className="font-mono text-xs text-faint">{sub}</div> : null}
+      {sub ? <div className="mt-1 font-mono text-[11px] leading-4 text-faint">{sub}</div> : null}
     </div>
   );
 }

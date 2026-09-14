@@ -14,7 +14,7 @@ export function MoveList({ quotes, empty }: { quotes: Quote[]; empty: string }) 
           <Link
             to="/stocks/$symbol"
             params={{ symbol: q.symbol }}
-            className="flex items-center justify-between gap-3 px-4 py-2.5 transition-colors hover:bg-elev sm:px-5"
+            className="flex min-h-[59px] items-center justify-between gap-3 px-4 py-2.5 transition-colors hover:bg-elev sm:px-5"
           >
             <div className="min-w-0">
               <div className="font-mono text-xs font-medium text-ink">{q.symbol}</div>
@@ -41,7 +41,7 @@ export function TurnoverList({ quotes }: { quotes: Quote[] }) {
           <Link
             to="/stocks/$symbol"
             params={{ symbol: q.symbol }}
-            className="flex items-center justify-between gap-3 px-4 py-2.5 transition-colors hover:bg-elev sm:px-5"
+            className="flex min-h-[59px] items-center justify-between gap-3 px-4 py-2.5 transition-colors hover:bg-elev sm:px-5"
           >
             <div className="min-w-0">
               <div className="font-mono text-xs font-medium text-ink">{q.symbol}</div>

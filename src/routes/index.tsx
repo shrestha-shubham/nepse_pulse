@@ -81,37 +81,57 @@ function MarketOverview() {
         </Panel>
       ) : (
         <>
-          <StatGrid cols={4}>
-            <Stat
-              label="NEPSE Index"
-              value={formatPrice(s.index)}
-              sub={`${formatSigned(s.change)} (${formatPercent(s.changePercent)})`}
-              tone={tone}
-            />
-            <Stat
-              label="Turnover"
-              value={`Rs. ${formatCompactNpr(s.turnover)}`}
-              sub="Total value traded"
-            />
-            <Stat
-              label="Traded shares"
-              value={formatCompactNpr(s.tradedShares)}
-              sub={`${groupNepali(s.transactions)} transactions`}
-            />
-            <Stat
-              label="Market breadth"
-              value={
-                <span className="flex items-baseline gap-1.5 text-xl">
-                  <span className="text-up">{s.advancing}</span>
-                  <span className="text-faint">/</span>
-                  <span className="text-down">{s.declining}</span>
-                  <span className="text-faint">/</span>
-                  <span className="text-flat">{s.unchanged}</span>
-                </span>
-              }
-              sub="Advancing / declining / unchanged"
-            />
-          </StatGrid>
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)]">
+            <Panel className="overflow-hidden">
+              <div className="border-b border-line px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="label-xs">NEPSE Index</div>
+                  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
+                    <span className={`size-1.5 rounded-full ${s.isLive ? "bg-up" : "bg-flat"}`} />
+                    {s.isLive ? "Market open" : "Market closed"}
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap items-end justify-between gap-x-5 gap-y-3">
+                  <div className="font-mono text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+                    {formatPrice(s.index)}
+                  </div>
+                  <div className={`font-mono text-sm ${toneTextClass[tone]}`}>
+                    {formatSigned(s.change)} ({formatPercent(s.changePercent)})
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-3 px-5 py-3 text-[11px] text-faint">
+                <span>Session close</span>
+                <span className="font-mono">{formatDateLabel(s.asOf)}</span>
+              </div>
+            </Panel>
+
+            <StatGrid cols={3}>
+              <Stat
+                label="Turnover"
+                value={`Rs. ${formatCompactNpr(s.turnover)}`}
+                sub="Total value traded"
+              />
+              <Stat
+                label="Traded shares"
+                value={formatCompactNpr(s.tradedShares)}
+                sub={`${groupNepali(s.transactions)} transactions`}
+              />
+              <Stat
+                label="Market breadth"
+                value={
+                  <span className="flex items-baseline gap-1.5 text-xl">
+                    <span className="text-up">{s.advancing}</span>
+                    <span className="text-faint">/</span>
+                    <span className="text-down">{s.declining}</span>
+                    <span className="text-faint">/</span>
+                    <span className="text-flat">{s.unchanged}</span>
+                  </span>
+                }
+                sub="Advancing / declining / unchanged"
+              />
+            </StatGrid>
+          </div>
 
           <Panel>
             <PanelHeader
@@ -132,8 +152,8 @@ function MarketOverview() {
             )}
           </Panel>
 
-          <div className="grid gap-5 lg:grid-cols-3">
-            <Panel>
+          <div className="grid items-stretch gap-4 lg:grid-cols-3">
+            <Panel className="h-full overflow-hidden">
               <PanelHeader title="Top gainers" meta="Largest daily percentage rise" />
               {quotes.isPending ? (
                 <LoadingBlock />
@@ -148,7 +168,7 @@ function MarketOverview() {
                 <MoveList quotes={gainers} empty="No advancing stocks." />
               )}
             </Panel>
-            <Panel>
+            <Panel className="h-full overflow-hidden">
               <PanelHeader title="Top losers" meta="Largest daily percentage fall" />
               {quotes.isPending ? (
                 <LoadingBlock />
@@ -163,7 +183,7 @@ function MarketOverview() {
                 <MoveList quotes={losers} empty="No declining stocks." />
               )}
             </Panel>
-            <Panel>
+            <Panel className="h-full overflow-hidden">
               <PanelHeader title="Most traded" meta="Ranked by turnover" />
               {quotes.isPending ? (
                 <LoadingBlock />
