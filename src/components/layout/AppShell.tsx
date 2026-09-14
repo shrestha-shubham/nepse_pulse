@@ -1,14 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { BarChart3, ChartCandlestick, Grid2X2, Home, Search, Star } from "lucide-react";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { useQuotes } from "@/hooks/useMarketData";
 import { formatPercent, formatPrice, toneTextClass, toneOf } from "@/lib/format";
 
@@ -54,10 +46,23 @@ function DemoNotice() {
 }
 
 function SymbolSearch() {
-  const [open, setOpen] = useState(false);
   const [shortcut, setShortcut] = useState("Ctrl K");
+  const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { data: quotes } = useQuotes();
   const navigate = useNavigate();
+  const results = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return [];
+    return (quotes ?? [])
+      .filter(
+        (quote) =>
+          quote.symbol.toLowerCase().includes(normalized) ||
+          quote.name.toLowerCase().includes(normalized),
+      )
+      .slice(0, 6);
+  }, [quotes, query]);
 
   useEffect(() => {
     setShortcut(/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K");
@@ -73,7 +78,7 @@ function SymbolSearch() {
 
       if (openShortcut) {
         e.preventDefault();
-        setOpen(true);
+        inputRef.current?.focus();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -81,46 +86,79 @@ function SymbolSearch() {
   }, []);
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Search ticker"
-        aria-keyshortcuts={shortcut === "⌘K" ? "Meta+K" : "Control+K"}
-        className="flex h-9 w-9 items-center justify-center gap-2 rounded-[3px] border border-line bg-surface text-left text-sm text-faint transition-colors hover:border-brand/50 hover:text-muted sm:w-56 sm:justify-start sm:px-3"
-      >
-        <Search aria-hidden="true" className="size-4 shrink-0 sm:hidden" />
-        <span className="hidden font-mono text-xs sm:inline">{shortcut}</span>
-        <span className="hidden sm:inline">Search ticker…</span>
-      </button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput autoFocus placeholder="Search by symbol or company…" />
-        <CommandList>
-          <CommandEmpty>No matching company in the demo dataset.</CommandEmpty>
-          <CommandGroup heading="Listed companies">
-            {(quotes ?? []).map((q) => (
-              <CommandItem
-                key={q.symbol}
-                value={`${q.symbol} ${q.name}`}
-                onSelect={() => {
-                  setOpen(false);
-                  navigate({ to: "/stocks/$symbol", params: { symbol: q.symbol } });
-                }}
-              >
-                <span className="font-mono text-xs font-medium">{q.symbol}</span>
-                <span className="truncate text-muted">{q.name}</span>
-                <span className="ml-auto flex items-center gap-3 font-mono text-xs">
-                  <span>{formatPrice(q.price)}</span>
-                  <span className={toneTextClass[toneOf(q.changePercent)]}>
-                    {formatPercent(q.changePercent)}
+    <div className="relative">
+      <div className="flex h-9 w-40 items-center gap-2 rounded-[3px] border border-line bg-surface px-2.5 text-sm text-faint transition-colors focus-within:border-brand/60 sm:w-56 sm:px-3">
+        <Search aria-hidden="true" className="size-4 shrink-0" />
+        <input
+          ref={inputRef}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => window.setTimeout(() => setFocused(false), 150)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setQuery("");
+              setFocused(false);
+              inputRef.current?.blur();
+            }
+            if (e.key === "Enter" && results[0]) {
+              setQuery("");
+              setFocused(false);
+              navigate({ to: "/stocks/$symbol", params: { symbol: results[0].symbol } });
+            }
+          }}
+          id="global-stock-search"
+          aria-label="Search stocks by symbol or company"
+          aria-keyshortcuts={shortcut === "⌘K" ? "Meta+K" : "Control+K"}
+          aria-controls="global-stock-search-results"
+          aria-expanded={focused && query.trim().length > 0}
+          placeholder="Search stocks…"
+          className="min-w-0 flex-1 bg-transparent font-mono text-xs text-ink outline-none placeholder:text-faint"
+        />
+        <kbd className="hidden shrink-0 font-mono text-[10px] text-faint lg:inline">{shortcut}</kbd>
+      </div>
+      {focused && query.trim() ? (
+        <div
+          id="global-stock-search-results"
+          role="listbox"
+          aria-label="Matching stocks"
+          className="absolute right-0 top-full z-30 mt-2 w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-[3px] border border-line bg-surface shadow-lg"
+        >
+          {results.length > 0 ? (
+            <div className="divide-y divide-line">
+              {results.map((quote) => (
+                <button
+                  key={quote.symbol}
+                  type="button"
+                  role="option"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setQuery("");
+                    setFocused(false);
+                    navigate({ to: "/stocks/$symbol", params: { symbol: quote.symbol } });
+                  }}
+                  className="flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-elev focus:bg-elev focus:outline-none"
+                >
+                  <span className="font-mono text-xs font-medium text-ink">{quote.symbol}</span>
+                  <span className="min-w-0 flex-1 truncate text-xs text-muted">{quote.name}</span>
+                  <span className="font-mono text-[11px] text-muted">
+                    {formatPrice(quote.price)}
                   </span>
-                </span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
-    </>
+                  <span className={toneTextClass[toneOf(quote.changePercent)]}>
+                    {formatPercent(quote.changePercent)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="px-3 py-4 text-center">
+              <p className="text-sm text-ink">No stocks found</p>
+              <p className="mt-1 text-xs text-faint">Try a different symbol or company name.</p>
+            </div>
+          )}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
