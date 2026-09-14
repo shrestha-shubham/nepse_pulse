@@ -6,7 +6,7 @@ NEPSE Pulse is a React + TypeScript dashboard for exploring Nepal Stock Exchange
 
 ## 🚀 Live Demo
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](nepse-pulse-beta.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://nepse-pulse-beta.vercel.app/)
 
 ## Features
 
