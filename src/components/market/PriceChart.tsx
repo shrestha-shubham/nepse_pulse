@@ -51,7 +51,8 @@ export function PriceChart({
             tick={{ fill: "var(--faint)", fontSize: 11, fontFamily: "var(--font-mono)" }}
             tickLine={false}
             axisLine={{ stroke: "var(--line)" }}
-            minTickGap={32}
+            minTickGap={20}
+            interval={0}
           />
           <YAxis
             domain={["auto", "auto"]}

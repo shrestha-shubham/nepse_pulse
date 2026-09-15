@@ -87,7 +87,7 @@ function SymbolSearch() {
 
   return (
     <div className="relative">
-      <div className="flex h-9 w-40 items-center gap-2 rounded-[3px] border border-line bg-surface px-2.5 text-sm text-faint transition-colors focus-within:border-brand/60 sm:w-56 sm:px-3">
+      <div className="flex h-9 w-full max-w-[10rem] items-center gap-2 rounded-[3px] border border-line bg-surface px-2.5 text-sm text-faint transition-colors focus-within:border-brand/60 sm:max-w-[14rem] sm:px-3">
         <Search aria-hidden="true" className="size-4 shrink-0" />
         <input
           ref={inputRef}
@@ -192,9 +192,9 @@ export function AppShell({ title, tag, subtitle, children, actions }: AppShellPr
       </aside>
 
       <main className="pb-16 md:pb-0 md:pl-60">
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between gap-4 border-b border-line bg-canvas/95 px-5 backdrop-blur lg:px-8">
+        <header className="sticky top-0 z-10 flex h-auto flex-col items-stretch gap-3 border-b border-line bg-canvas/95 px-4 py-3 backdrop-blur sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 lg:px-8">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex min-w-0 items-center gap-2">
               <h1 className="truncate text-base font-semibold tracking-tight">{title}</h1>
               {tag ? (
                 <span className="hidden rounded-[3px] border border-line px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-faint sm:inline">
@@ -204,7 +204,7 @@ export function AppShell({ title, tag, subtitle, children, actions }: AppShellPr
             </div>
             <p className="mt-0.5 truncate font-mono text-[11px] text-faint">{subtitle}</p>
           </div>
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
             {actions}
             <SymbolSearch />
             <div className="hidden items-center gap-1.5 font-mono text-[11px] text-muted lg:flex">
