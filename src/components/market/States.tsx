@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export function LoadingBlock({ className, rows = 5 }: { className?: string; rows?: number }) {
   return (
-    <div className={cn("space-y-2 p-4", className)} role="status" aria-label="Loading data">
+    <div className={cn("space-y-2.5 p-4 sm:p-5", className)} role="status" aria-label="Loading data">
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
@@ -18,7 +18,7 @@ export function LoadingBlock({ className, rows = 5 }: { className?: string; rows
 export function ChartSkeleton({ height = 280 }: { height?: number }) {
   return (
     <div
-      className="m-4 animate-pulse rounded-[3px] bg-elev"
+      className="m-4 animate-pulse rounded-[3px] bg-elev sm:m-5"
       style={{ height }}
       role="status"
       aria-label="Loading chart"
@@ -38,7 +38,7 @@ export function StateMessage({
   tone?: "neutral" | "error";
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 px-6 py-14 text-center">
+    <div className="flex flex-col items-center justify-center gap-2 px-5 py-12 text-center sm:px-6 sm:py-14">
       <div
         className={cn(
           "font-mono text-[10px] uppercase tracking-[0.18em]",
@@ -59,7 +59,7 @@ export function RetryButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="rounded-[3px] border border-line bg-elev px-3 py-1.5 font-mono text-xs text-ink transition-colors hover:border-brand/60"
+      className="h-8 rounded-[3px] border border-line bg-elev px-3 font-mono text-xs text-ink transition-colors hover:border-brand/60"
     >
       Try again
     </button>
