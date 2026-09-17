@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { BarChart3, ChartCandlestick, Grid2X2, Home, Search, Star } from "lucide-react";
+import { BarChart3, ChartCandlestick, Grid2X2, Home, RefreshCw, Search, Star } from "lucide-react";
 import { useQuotes } from "@/hooks/useMarketData";
 import { formatPercent, formatPrice, toneTextClass, toneOf } from "@/lib/format";
+import { Button } from "@/components/ui/button";
 
 const NAV = [
   { to: "/", num: "01", label: "Market Overview", icon: Home },
@@ -171,6 +173,13 @@ interface AppShellProps {
 }
 
 export function AppShell({ title, tag, subtitle, children, actions }: AppShellProps) {
+  const queryClient = useQueryClient();
+  const marketFetches = useIsFetching({ queryKey: ["market"] });
+
+  const refreshMarket = () => {
+    void queryClient.invalidateQueries({ queryKey: ["market"] });
+  };
+
   return (
     <div className="min-h-screen bg-canvas text-ink">
       <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r border-line bg-surface md:flex">
@@ -206,6 +215,17 @@ export function AppShell({ title, tag, subtitle, children, actions }: AppShellPr
           </div>
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
             {actions}
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="Refresh market data"
+              title="Refresh market data"
+              onClick={refreshMarket}
+              disabled={marketFetches > 0}
+            >
+              <RefreshCw aria-hidden="true" className={marketFetches > 0 ? "animate-spin" : ""} />
+            </Button>
             <SymbolSearch />
             <div className="hidden items-center gap-1.5 font-mono text-[11px] text-muted lg:flex">
               <span className="size-1.5 rounded-full bg-flat" /> Demo
