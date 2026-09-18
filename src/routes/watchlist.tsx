@@ -59,20 +59,9 @@ function WatchlistPage() {
               </button>
             ) : null
           }
-        />        {rows.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2 border-b border-line px-4 pb-3 pt-1">
-            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
-              Saved: {rows.length}
-            </span>
-            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-up">
-              Gainers: {rows.filter((q) => q.changePercent >= 0).length}
-            </span>
-            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-down">
-              Losers: {rows.filter((q) => q.changePercent < 0).length}
-            </span>
-          </div>
-        )}        {rows.length > 0 && (
-          <div className="mb-4 flex flex-wrap gap-2 border-b border-line px-4 pb-3 pt-1">
+        />
+        {rows.length > 0 && (
+          <div className="mb-4 flex flex-wrap items-center gap-2 border-b border-line px-4 pb-3 pt-1">
             <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
               Saved: {rows.length}
             </span>
@@ -91,12 +80,20 @@ function WatchlistPage() {
             title="Your watchlist is empty"
             description="Open any company and use “Add to watchlist” to start tracking it here."
             action={
-              <Link
-                to="/stocks"
-                className="rounded-[3px] border border-line bg-elev px-3 py-1.5 font-mono text-xs text-ink hover:border-brand/60"
-              >
-                Browse stocks
-              </Link>
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  to="/stocks"
+                  className="rounded-[3px] border border-line bg-elev px-3 py-1.5 font-mono text-xs text-ink hover:border-brand/60"
+                >
+                  Browse stocks
+                </Link>
+                <Link
+                  to="/stocks"
+                  className="rounded-[3px] border border-line bg-surface px-3 py-1.5 font-mono text-xs text-faint hover:border-brand/60 hover:text-ink"
+                >
+                  Reset view
+                </Link>
+              </div>
             }
           />
         ) : (
