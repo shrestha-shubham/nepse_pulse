@@ -117,6 +117,20 @@ function SymbolSearch() {
           placeholder="Search stocks…"
           className="min-w-0 flex-1 bg-transparent font-mono text-xs text-ink outline-none placeholder:text-faint"
         />
+        {query.trim() ? (
+          <button
+            type="button"
+            aria-label="Clear stock search"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
+            className="rounded-[3px] border border-line bg-canvas px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-faint transition-colors hover:border-brand/60 hover:text-ink"
+          >
+            Clear
+          </button>
+        ) : null}
         <kbd className="hidden shrink-0 font-mono text-[10px] text-faint lg:inline">{shortcut}</kbd>
       </div>
       {focused && query.trim() ? (
