@@ -59,7 +59,31 @@ function WatchlistPage() {
               </button>
             ) : null
           }
-        />
+        />        {rows.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-2 border-b border-line px-4 pb-3 pt-1">
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
+              Saved: {rows.length}
+            </span>
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-up">
+              Gainers: {rows.filter((q) => q.changePercent >= 0).length}
+            </span>
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-down">
+              Losers: {rows.filter((q) => q.changePercent < 0).length}
+            </span>
+          </div>
+        )}        {rows.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-2 border-b border-line px-4 pb-3 pt-1">
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
+              Saved: {rows.length}
+            </span>
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-up">
+              Gainers: {rows.filter((q) => q.changePercent >= 0).length}
+            </span>
+            <span className="rounded-[3px] border border-line bg-elev px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-down">
+              Losers: {rows.filter((q) => q.changePercent < 0).length}
+            </span>
+          </div>
+        )}
         {!ready || isPending ? (
           <LoadingBlock rows={4} />
         ) : rows.length === 0 ? (
