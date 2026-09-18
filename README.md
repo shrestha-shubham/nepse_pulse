@@ -16,6 +16,7 @@ NEPSE Pulse is a React + TypeScript dashboard for exploring Nepal Stock Exchange
 - Local watchlist persistence using browser storage
 - Sector heatmap and analytics views
 - Demo-data labeling throughout the UI
+- Quick search and filter resets for faster exploration
 
 ## Tech stack
 
