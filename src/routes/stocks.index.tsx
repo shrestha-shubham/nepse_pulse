@@ -118,6 +118,18 @@ function StocksPage() {
                   </option>
                 ))}
               </select>
+              {(query || sector !== "All") && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setSector("All");
+                  }}
+                  className="h-8 rounded-[3px] border border-line bg-surface px-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-faint transition-colors hover:border-brand/60 hover:text-ink"
+                >
+                  Clear filters
+                </button>
+              )}
             </div>
           }
         />
