@@ -189,8 +189,14 @@ interface AppShellProps {
 export function AppShell({ title, tag, subtitle, children, actions }: AppShellProps) {
   const queryClient = useQueryClient();
   const marketFetches = useIsFetching({ queryKey: ["market"] });
+  const [lastUpdated, setLastUpdated] = useState(() => new Date());
+
+  useEffect(() => {
+    setLastUpdated(new Date());
+  }, []);
 
   const refreshMarket = () => {
+    setLastUpdated(new Date());
     void queryClient.invalidateQueries({ queryKey: ["market"] });
   };
 
@@ -229,6 +235,13 @@ export function AppShell({ title, tag, subtitle, children, actions }: AppShellPr
           </div>
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:gap-3">
             {actions}
+            <div className="hidden items-center gap-1.5 rounded-[3px] border border-line bg-surface px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-faint lg:flex">
+              <span className="size-1.5 rounded-full bg-up" />
+              {new Intl.DateTimeFormat("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+              }).format(lastUpdated)}
+            </div>
             <Button
               type="button"
               variant="ghost"
